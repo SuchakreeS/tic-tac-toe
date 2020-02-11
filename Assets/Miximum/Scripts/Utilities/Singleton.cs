@@ -10,7 +10,7 @@ namespace Miximum
 	
 		//-----------------------------------------------------------------
 
-		protected virtual void Awake() => Instance    =   GetComponent<T>();
+		public virtual void Awake() => Instance    =   GetComponent<T>();
 
 		//-----------------------------------------------------------------
 	}

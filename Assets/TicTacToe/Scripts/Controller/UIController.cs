@@ -7,19 +7,18 @@ using Miximum;
 
 namespace TicTacToe
 {
-    public class UIController : MonoBehaviour
+    public enum UIName 
+    {
+        None, 
+        Menu, 
+        GameInit, 
+        GamePlay
+    }
+    public class UIController : Singleton<UIController>
     {
         // -------------------------------------------------------------------------------------
         private const int DURATION_FADE_TRANSITION = 300;
         // -------------------------------------------------------------------------------------
-        public enum UIName 
-        {
-            None, 
-            Menu, 
-            GameInit, 
-            GamePlay
-        }
-
         [Serializable]
         public struct CanvasInfo
         {
@@ -37,8 +36,9 @@ namespace TicTacToe
         private IDisposable _Disposable;
         // -------------------------------------------------------------------------------------
         // Unity Funtion
-        private void Awake()
+        public override void Awake()
         {
+            base.Awake();
             foreach (var info in m_CanvasInfos)
             {
                 _CanvanInfoDict[info.Name] = info.Canvas;
