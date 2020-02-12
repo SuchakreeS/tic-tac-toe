@@ -11,6 +11,8 @@ namespace TicTacToe
     public class UIGameInit : UICanvas
     {
         // -------------------------------------------------------------------------------------
+        [SerializeField] private UIPlayerSetting m_Player1Setting;
+        [SerializeField] private UIPlayerSetting m_Player2Setting;
         [SerializeField] private Button m_PlayButton;
         [SerializeField] private Button m_BackButton;
         // -------------------------------------------------------------------------------------
@@ -24,7 +26,8 @@ namespace TicTacToe
         // Public Funtion
         public override void InitCanvas()
         {
-            
+            m_Player1Setting.RefreshSetting();
+            m_Player2Setting.RefreshSetting();
         }
         // -------------------------------------------------------------------------------------
         // Private Funtion

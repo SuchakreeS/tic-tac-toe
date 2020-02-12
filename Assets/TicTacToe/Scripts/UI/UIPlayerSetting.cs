@@ -14,16 +14,18 @@ namespace TicTacToe
         // -------------------------------------------------------------------------------------
         [SerializeField] private PlayerType m_PlayerType;
         [SerializeField] private Dropdown m_ControllerDropdown;
+        [SerializeField] private ToggleGroup m_ToggleGroup;
         [SerializeField] private Toggle[] m_SymbolToggles;
         // -------------------------------------------------------------------------------------
         private PlayerInfo _Player;
+        private bool _IsSetup;
         // -------------------------------------------------------------------------------------
         // Unity Funtion
         private void Start()
         {
-            var isSetup = true;
+            _IsSetup = true;
             // Dropdown
-            m_ControllerDropdown.OnValueChangedAsObservable().Where(_ => !isSetup).Subscribe(_value => 
+            m_ControllerDropdown.OnValueChangedAsObservable().Where(_ => !_IsSetup).Subscribe(_value => 
             {
                 _Player.ControlerType = (ControllerType)_value;
                 UpdateData();
@@ -33,18 +35,27 @@ namespace TicTacToe
             for (int i = 0; i < m_SymbolToggles.Length; i++)
             {
                 var index = i;
-                m_SymbolToggles[i].OnValueChangedAsObservable().Where(_value => _value && !isSetup).Subscribe(_value => 
+                m_SymbolToggles[i].OnValueChangedAsObservable().Where(_value => _value && !_IsSetup).Subscribe(_value => 
                 {
                     Debug.Log((SymbolType)index);
                 }).AddTo(this);
             }
-            isSetup = false;
+            _IsSetup = false;
         }
         // -------------------------------------------------------------------------------------
         // Public Funtion
+        public void RefreshSetting()
+        {
+            _IsSetup = true;
+
+            _Player = DataController.Instance.GetPlayerInfo(m_PlayerType);
+            
+
+            _IsSetup = false;
+        }
         public void UpdateData()
         {
-            DataController.Instance.UpdatePlayerInfo(m_PlayerType, _Player);
+            DataController.Instance.SetPlayerInfo(m_PlayerType, _Player);
         }
         // -------------------------------------------------------------------------------------
         // Private Funtion

@@ -4,6 +4,7 @@ using UnityEngine;
 using UniRx;
 using System;
 using Miximum;
+using System;
 
 namespace TicTacToe
 {
@@ -58,16 +59,26 @@ namespace TicTacToe
             _Player1 = m_Player1Default;
             _Player2 = m_Player2Default;
             _MatchSize = m_MatchSizeDefault;
-
             // Load Data
         }
         // -------------------------------------------------------------------------------------
         // Public Funtion
         public void LoadData()
         {
-
         }
-        public void UpdatePlayerInfo(PlayerType _playerType, PlayerInfo _playerInfo)
+        public PlayerInfo GetPlayerInfo(PlayerType _playerType)
+        {
+            if(_playerType == PlayerType.Player1)
+            {
+                return _Player1;
+            }
+            else if(_playerType == PlayerType.Player2)
+            {
+                return _Player2;
+            }
+            return _Player1;
+        }
+        public void SetPlayerInfo(PlayerType _playerType, PlayerInfo _playerInfo)
         {
             if(_playerType == PlayerType.Player1)
             {
