@@ -4416,7 +4416,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 1044767192}
   toggleTransition: 1
   graphic: {fileID: 1939569189}
@@ -4424,7 +4424,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!1 &1217299362
 GameObject:
   m_ObjectHideFlags: 0
@@ -5500,7 +5500,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 2146029976}
   toggleTransition: 1
   graphic: {fileID: 123764641}
@@ -6237,7 +6237,7 @@ MonoBehaviour:
     ControlerType: 0
     SymbolType: 0
   m_Player2Default:
-    ControlerType: 0
+    ControlerType: 1
     SymbolType: 2
   m_MatchSizeDefault: 0
 --- !u!1 &1841710108
@@ -6400,7 +6400,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1 &1857446940
 GameObject:
   m_ObjectHideFlags: 0
