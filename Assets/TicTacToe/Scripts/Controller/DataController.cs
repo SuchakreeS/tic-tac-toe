@@ -53,12 +53,16 @@ namespace TicTacToe
         public MatchSize MatchSize => _MatchSize;
         // -------------------------------------------------------------------------------------
         // Unity Funtion
-        private void Start()
+        public override void Awake()
         {
+            base.Awake();
             // Set Default 
             _Player1 = m_Player1Default;
             _Player2 = m_Player2Default;
             _MatchSize = m_MatchSizeDefault;
+        }
+        private void Start()
+        {
             // Load Data
         }
         // -------------------------------------------------------------------------------------
