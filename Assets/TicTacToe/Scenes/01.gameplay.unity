@@ -1019,6 +1019,7 @@ GameObject:
   - component: {fileID: 122211166}
   - component: {fileID: 122211164}
   - component: {fileID: 122211168}
+  - component: {fileID: 122211165}
   m_Layer: 5
   m_Name: Canvas.Menu
   m_TagString: Untagged
@@ -1043,6 +1044,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &122211165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 122211163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a89b21c8b7ad4214e94ff1512de6e189, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!223 &122211166
 Canvas:
   m_ObjectHideFlags: 0
@@ -3118,6 +3131,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PlayerType: 1
   m_ControllerDropdown: {fileID: 93529007}
+  m_ToggleGroup: {fileID: 0}
   m_SymbolToggles:
   - {fileID: 1213217663}
   - {fileID: 1854764386}
@@ -4714,6 +4728,7 @@ GameObject:
   - component: {fileID: 1392049184}
   - component: {fileID: 1392049182}
   - component: {fileID: 1392049186}
+  - component: {fileID: 1392049183}
   m_Layer: 5
   m_Name: Canvas.GamePlay
   m_TagString: Untagged
@@ -4738,6 +4753,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &1392049183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392049181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4559db7e8754604cb957c0cca95a800, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!223 &1392049184
 Canvas:
   m_ObjectHideFlags: 0
@@ -6030,6 +6057,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfc20b3d12d4ac349945b221be5f8cdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Player1Setting: {fileID: 1736908023}
+  m_Player2Setting: {fileID: 843383618}
   m_PlayButton: {fileID: 226414037}
   m_BackButton: {fileID: 1040457477}
 --- !u!1 &1736908017
@@ -6149,6 +6178,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PlayerType: 0
   m_ControllerDropdown: {fileID: 1055372177}
+  m_ToggleGroup: {fileID: 0}
   m_SymbolToggles:
   - {fileID: 1423657542}
   - {fileID: 1600730122}
@@ -6989,11 +7019,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CanvasInfos:
   - Name: 1
-    Canvas: {fileID: 122211168}
+    UICanvas: {fileID: 122211165}
   - Name: 2
-    Canvas: {fileID: 1710656297}
+    UICanvas: {fileID: 1710656300}
   - Name: 3
-    Canvas: {fileID: 1392049186}
+    UICanvas: {fileID: 1392049183}
   m_StartUI: 1
 --- !u!1 &2006711102
 GameObject:

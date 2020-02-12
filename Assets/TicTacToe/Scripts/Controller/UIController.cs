@@ -23,7 +23,7 @@ namespace TicTacToe
         public struct CanvasInfo
         {
             public UIName Name;
-            public CanvasGroup Canvas;
+            public UICanvas UICanvas;
         }
         // -------------------------------------------------------------------------------------
         [Header("Canvas Setting")]
@@ -32,7 +32,7 @@ namespace TicTacToe
         // -------------------------------------------------------------------------------------
         private bool _IsChanging;
         private UIName _CurrentUI;
-        private Dictionary<UIName, CanvasGroup> _CanvanInfoDict = new Dictionary<UIName, CanvasGroup>();
+        private Dictionary<UIName, UICanvas> _CanvanInfoDict = new Dictionary<UIName, UICanvas>();
         private IDisposable _Disposable;
         // -------------------------------------------------------------------------------------
         // Unity Funtion
@@ -41,7 +41,7 @@ namespace TicTacToe
             base.Awake();
             foreach (var info in m_CanvasInfos)
             {
-                _CanvanInfoDict[info.Name] = info.Canvas;
+                _CanvanInfoDict[info.Name] = info.UICanvas;
             }
         }
 
@@ -66,6 +66,7 @@ namespace TicTacToe
             Action showEvent = () => 
             {
                 _CurrentUI = _name;
+                _CanvanInfoDict[_CurrentUI].InitCanvas();
                 Show(_CurrentUI, _force, onCompleted);
             };
 
@@ -91,13 +92,13 @@ namespace TicTacToe
         {
             if(_force)
             {
-                _CanvanInfoDict[_name].SetAlpha(_alpha);
+                _CanvanInfoDict[_name].Canvas.SetAlpha(_alpha);
                 _onCompleted?.Invoke();
             }
             else
             {
                 _Disposable?.Dispose();
-                _Disposable = _CanvanInfoDict[_name].LerpAlpha(DURATION_FADE_TRANSITION, _alpha, true, _onCompleted);
+                _Disposable = _CanvanInfoDict[_name].Canvas.LerpAlpha(DURATION_FADE_TRANSITION, _alpha, true, _onCompleted);
             }
         }
         private void HideAll(bool _force = true)

@@ -7,25 +7,23 @@ using Miximum;
 
 namespace TicTacToe
 {
-    [RequireComponent(typeof(CanvasGroup))]
-    public abstract class UICanvas : MonoBehaviour
+    public class UIGamePlay : UICanvas
     {
         // -------------------------------------------------------------------------------------
-        private CanvasGroup _Canvas;
-        // -------------------------------------------------------------------------------------
-        public CanvasGroup Canvas => _Canvas;
+
         // -------------------------------------------------------------------------------------
         // Unity Funtion
-        private void Awake()
-        {
-            _Canvas = GetComponent<CanvasGroup>();
-        }
+
         // -------------------------------------------------------------------------------------
         // Public Funtion
-        public abstract void InitCanvas();
+        public override void InitCanvas()
+        {
+            
+        }
         // -------------------------------------------------------------------------------------
         // Private Funtion
 
         // -------------------------------------------------------------------------------------
+        
     }
 }

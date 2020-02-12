@@ -49,8 +49,8 @@ namespace TicTacToe
             _IsSetup = true;
 
             _Player = DataController.Instance.GetPlayerInfo(m_PlayerType);
+            m_ControllerDropdown.value = _Player.ControlerType.GetHashCode();
             
-
             _IsSetup = false;
         }
         public void UpdateData()

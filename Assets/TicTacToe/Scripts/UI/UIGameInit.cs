@@ -26,6 +26,7 @@ namespace TicTacToe
         // Public Funtion
         public override void InitCanvas()
         {
+            Debug.Log("InitCamvas");
             m_Player1Setting.RefreshSetting();
             m_Player2Setting.RefreshSetting();
         }
