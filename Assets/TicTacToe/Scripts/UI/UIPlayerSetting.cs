@@ -29,7 +29,7 @@ namespace TicTacToe
             _IsSetup = true;
 
             // Update Data
-            _Player = DataController.Instance.GetPlayerInfo(m_PlayerType);
+            _Player = DataManager.Instance.GetPlayerInfo(m_PlayerType);
 
             // Dropdown
             m_ControllerDropdown.OnValueChangedAsObservable().Where(_ => !_IsSetup).Subscribe(_value => 
@@ -76,7 +76,7 @@ namespace TicTacToe
             _IsSetup = true;
             
             // Set Controller Dropdown
-            _Player = DataController.Instance.GetPlayerInfo(m_PlayerType);
+            _Player = DataManager.Instance.GetPlayerInfo(m_PlayerType);
             m_ControllerDropdown.value = _Player.ControlerType.GetHashCode();
             
             // Set Symbol Toggles
@@ -94,7 +94,7 @@ namespace TicTacToe
         }
         public void UpdateData()
         {
-            DataController.Instance.SetPlayerInfo(m_PlayerType, _Player);
+            DataManager.Instance.SetPlayerInfo(m_PlayerType, _Player);
         }
         public int SymbolValue => Player.SymbolType.GetHashCode();
         // -------------------------------------------------------------------------------------

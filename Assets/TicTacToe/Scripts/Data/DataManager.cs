@@ -4,39 +4,10 @@ using UnityEngine;
 using UniRx;
 using System;
 using Miximum;
-using System;
 
 namespace TicTacToe
 {
-    public enum PlayerType
-    {
-        Player1,
-        Player2
-    }
-    public enum ControllerType
-    {
-        Human,
-        AI
-    }
-    public enum SymbolType
-    {
-        Chip,
-        Club,
-        Diamond,
-        Heart
-    }
-    public enum MatchSize
-    {
-        SIZE_3x3,
-        SIZE_4x4
-    }
-    [Serializable]
-    public struct PlayerInfo
-    {
-        public ControllerType ControlerType;
-        public SymbolType SymbolType;
-    }
-    public class DataController : Singleton<DataController>
+    public class DataManager : Singleton<DataManager>
     {
         // -------------------------------------------------------------------------------------
         [Header("Default Setting")]
@@ -44,13 +15,13 @@ namespace TicTacToe
         [SerializeField] private PlayerInfo m_Player2Default;
         [SerializeField] private MatchSize m_MatchSizeDefault;
         // -------------------------------------------------------------------------------------
-        private PlayerInfo _Player1;
-        private PlayerInfo _Player2;
-        private MatchSize _MatchSize;
+        private static PlayerInfo _Player1;
+        private static PlayerInfo _Player2;
+        private static MatchSize _MatchSize;
         // -------------------------------------------------------------------------------------
-        public PlayerInfo Player1 => _Player1;
-        public PlayerInfo Player2 => _Player2;
-        public MatchSize MatchSize => _MatchSize;
+        public static PlayerInfo Player1 => _Player1;
+        public static PlayerInfo Player2 => _Player2;
+        public static MatchSize MatchSize => _MatchSize;
         // -------------------------------------------------------------------------------------
         // Unity Funtion
         public override void Awake()

@@ -10,8 +10,10 @@ namespace TicTacToe
 {
     public class UIGamePlay : UICanvas
     {
+        
         // -------------------------------------------------------------------------------------
         [SerializeField] private Button m_BackButton;
+        [SerializeField] private UIBoard m_UIBoard;
         // -------------------------------------------------------------------------------------
         // Unity Funtion
         private void Start()
@@ -25,6 +27,8 @@ namespace TicTacToe
         public override void InitCanvas()
         {
             Debug.Log("InitCanvas GamePlay");
+            m_UIBoard.Refresh(3);
+            m_UIBoard.SetCell(SymbolType.Diamond, new Position(1, 2));
         }
         // -------------------------------------------------------------------------------------
         // Private Funtion

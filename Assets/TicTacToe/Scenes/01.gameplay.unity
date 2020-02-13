@@ -1351,6 +1351,8 @@ GameObject:
   - component: {fileID: 178867236}
   - component: {fileID: 178867238}
   - component: {fileID: 178867237}
+  - component: {fileID: 178867239}
+  - component: {fileID: 178867240}
   m_Layer: 5
   m_Name: Board
   m_TagString: Untagged
@@ -1413,6 +1415,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 178867235}
   m_CullTransparentMesh: 0
+--- !u!114 &178867239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 178867235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b38cb2ac3b77d2048b1c0e46ed861ca2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Player1Symbol: {fileID: 1008133412}
+  m_Player2Symbol: {fileID: 1685510952}
+  m_UICellPrefab: {fileID: 6155871150176650690, guid: aa8bce0f0be4b6b46a268e76b9fb2b86,
+    type: 3}
+  m_SymbolInfo:
+  - Type: 0
+    Texture: {fileID: 2800000, guid: d80ac110b24820148ac7cd6d3d5e5b52, type: 3}
+  - Type: 1
+    Texture: {fileID: 2800000, guid: c6a100265eb61944889bb5a2cb191a01, type: 3}
+  - Type: 2
+    Texture: {fileID: 2800000, guid: 78d2ca7335dbda740aec83645d515a0c, type: 3}
+  - Type: 3
+    Texture: {fileID: 2800000, guid: efc927e37db902e488c0ac717b9053fe, type: 3}
+--- !u!114 &178867240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 178867235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 250, y: 250}
+  m_Spacing: {x: 0, y: 0}
+  m_Constraint: 0
+  m_ConstraintCount: 2
 --- !u!1 &219476708
 GameObject:
   m_ObjectHideFlags: 0
@@ -4449,7 +4500,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1008133410}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -4458,16 +4509,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: d80ac110b24820148ac7cd6d3d5e5b52, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_Texture: {fileID: 0}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!222 &1008133413
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5995,6 +6043,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BackButton: {fileID: 1039257351}
+  m_UIBoard: {fileID: 178867239}
 --- !u!223 &1392049184
 Canvas:
   m_ObjectHideFlags: 0
@@ -7157,7 +7206,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1685510950}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -7166,16 +7215,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: d80ac110b24820148ac7cd6d3d5e5b52, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_Texture: {fileID: 0}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!222 &1685510953
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7539,7 +7585,7 @@ MonoBehaviour:
   m_Player2Default:
     ControlerType: 1
     SymbolType: 3
-  m_MatchSizeDefault: 0
+  m_MatchSizeDefault: 3
 --- !u!1 &1841710108
 GameObject:
   m_ObjectHideFlags: 0
