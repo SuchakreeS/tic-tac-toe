@@ -26,9 +26,7 @@ namespace TicTacToe
         // Public Funtion
         public override void InitCanvas()
         {
-            Debug.Log("InitCanvas GamePlay");
-            m_UIBoard.Refresh(3);
-            m_UIBoard.SetCell(SymbolType.Diamond, new Position(1, 2));
+            m_UIBoard.Refresh(DataManager.BoardSize.GetHashCode());
         }
         // -------------------------------------------------------------------------------------
         // Private Funtion

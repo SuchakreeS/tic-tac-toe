@@ -11,10 +11,11 @@ namespace TicTacToe
     public class UICell : MonoBehaviour
     {
         // -------------------------------------------------------------------------------------
+        [SerializeField] private Button m_Button;
         [SerializeField] private RawImage m_SymbolImage;
         // -------------------------------------------------------------------------------------
         // Unity Funtion
-
+        public Button Button => m_Button;
         // -------------------------------------------------------------------------------------
         // Public Funtion
         public void SetSymbol(Texture2D _texture)

@@ -11,26 +11,22 @@ namespace TicTacToe
     {
         // -------------------------------------------------------------------------------------
         [Header("Default Setting")]
-        [SerializeField] private PlayerInfo m_Player1Default;
-        [SerializeField] private PlayerInfo m_Player2Default;
-        [SerializeField] private MatchSize m_MatchSizeDefault;
+        [SerializeField] private PlayerInfo[] m_PlayerInfoDefault;
+        [SerializeField] private BoardSize m_MatchSizeDefault;
         // -------------------------------------------------------------------------------------
-        private static PlayerInfo _Player1;
-        private static PlayerInfo _Player2;
-        private static MatchSize _MatchSize;
+        private static PlayerInfo[] _PlayersInfo;
+        private static BoardSize _BoardSize;
         // -------------------------------------------------------------------------------------
-        public static PlayerInfo Player1 => _Player1;
-        public static PlayerInfo Player2 => _Player2;
-        public static MatchSize MatchSize => _MatchSize;
+        public static PlayerInfo[] PlayersInfo => _PlayersInfo;
+        public static BoardSize BoardSize => _BoardSize;
         // -------------------------------------------------------------------------------------
         // Unity Funtion
         public override void Awake()
         {
             base.Awake();
             // Set Default 
-            _Player1 = m_Player1Default;
-            _Player2 = m_Player2Default;
-            _MatchSize = m_MatchSizeDefault;
+            _PlayersInfo = m_PlayerInfoDefault;
+            _BoardSize = m_MatchSizeDefault;
         }
         private void Start()
         {
@@ -41,28 +37,30 @@ namespace TicTacToe
         public void LoadData()
         {
         }
-        public PlayerInfo GetPlayerInfo(PlayerType _playerType)
+        public PlayerInfo GetPlayerInfo(PlayerName _playerName)
         {
-            if(_playerType == PlayerType.Player1)
+            foreach(var info in _PlayersInfo)
             {
-                return _Player1;
+                if(_playerName == info.Name)
+                {
+                    return info;
+                }
             }
-            else if(_playerType == PlayerType.Player2)
-            {
-                return _Player2;
-            }
-            return _Player1;
+            return _PlayersInfo[0];
         }
-        public void SetPlayerInfo(PlayerType _playerType, PlayerInfo _playerInfo)
+        public void SetPlayerInfo(PlayerName _playerName, PlayerInfo _playerInfo)
         {
-            if(_playerType == PlayerType.Player1)
+            for (int i = 0; i < _PlayersInfo.Length; i++)
             {
-                _Player1 = _playerInfo;
+                if (_playerName == _PlayersInfo[i].Name)
+                {
+                    _PlayersInfo[i] = _playerInfo;
+                }
             }
-            else if(_playerType == PlayerType.Player2)
-            {
-                _Player2 = _playerInfo;
-            }
+        }
+        public void SetBoardSize(BoardSize _boardSize)
+        {
+            _BoardSize = _boardSize;
         }
         // -------------------------------------------------------------------------------------
         // Private Funtion

@@ -2,10 +2,10 @@
 
 namespace TicTacToe
 {
-    public enum PlayerType
+    public enum PlayerName
     {
-        Player1,
-        Player2
+        Player1 = 1,
+        Player2 = 2
     }
     public enum ControllerType
     {
@@ -19,7 +19,7 @@ namespace TicTacToe
         Diamond,
         Heart
     }
-    public enum MatchSize
+    public enum BoardSize
     {
         SIZE_3x3 = 3,
         SIZE_4x4 = 4
@@ -38,8 +38,9 @@ namespace TicTacToe
     [Serializable]
     public struct PlayerInfo
     {
-        public ControllerType ControlerType;
-        public SymbolType SymbolType;
+        public PlayerName Name;
+        public SymbolType Symbol;
+        public ControllerType Controller;
     }
 }
 

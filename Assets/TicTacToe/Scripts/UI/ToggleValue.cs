@@ -4,27 +4,25 @@ using UnityEngine;
 using UniRx;
 using System;
 using Miximum;
+using UnityEngine.UI;
 
 namespace TicTacToe
 {
-    public abstract class Player
+    public class ToggleValue : Toggle
     {
         // -------------------------------------------------------------------------------------
-        public int Score;
-        public PlayerName PlayerName;
-        public SymbolType Symbol;
+        [SerializeField] public int m_Value;
         // -------------------------------------------------------------------------------------
-        public Player(PlayerName playerType, SymbolType _symbol)
-        {
-            PlayerName = playerType;
-            Symbol = _symbol;
-        }
+        public int Value => m_Value;
+        // -------------------------------------------------------------------------------------
+        // Unity Funtion
+
         // -------------------------------------------------------------------------------------
         // Public Funtion
-        public abstract IObservable<Position> MakeDicision(GameStage _stage, GameTime _gameTime);
+
         // -------------------------------------------------------------------------------------
         // Private Funtion
-        
+
         // -------------------------------------------------------------------------------------
     }
 }

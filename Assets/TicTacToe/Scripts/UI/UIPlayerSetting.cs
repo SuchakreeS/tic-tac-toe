@@ -12,7 +12,7 @@ namespace TicTacToe
     public class UIPlayerSetting : MonoBehaviour
     {
         // -------------------------------------------------------------------------------------
-        [SerializeField] private PlayerType m_PlayerType;
+        [SerializeField] private PlayerName m_PlayerType;
         [SerializeField] private UIPlayerSetting m_OpponentSetting;
         [SerializeField] private Dropdown m_ControllerDropdown;
         [SerializeField] private ToggleGroup m_ToggleGroup;
@@ -34,7 +34,7 @@ namespace TicTacToe
             // Dropdown
             m_ControllerDropdown.OnValueChangedAsObservable().Where(_ => !_IsSetup).Subscribe(_value => 
             {
-                _Player.ControlerType = (ControllerType)_value;
+                _Player.Controller = (ControllerType) _value;
                 UpdateData();
             }).AddTo(this);
 
@@ -44,7 +44,7 @@ namespace TicTacToe
                 var index = i;
                 m_SymbolToggles[i].OnValueChangedAsObservable().Where(_value => _value && !_IsSetup).Subscribe(_value => 
                 {
-                    _Player.SymbolType = (SymbolType)index;
+                    _Player.Symbol = (SymbolType) index;
                     RefreshToggle();
                     m_OpponentSetting.RefreshToggle();
                     UpdateData();
@@ -77,7 +77,7 @@ namespace TicTacToe
             
             // Set Controller Dropdown
             _Player = DataManager.Instance.GetPlayerInfo(m_PlayerType);
-            m_ControllerDropdown.value = _Player.ControlerType.GetHashCode();
+            m_ControllerDropdown.value = _Player.Controller.GetHashCode();
             
             // Set Symbol Toggles
             m_ToggleGroup.allowSwitchOff = true;
@@ -86,7 +86,7 @@ namespace TicTacToe
                 toggle.interactable = true;
                 toggle.isOn = false;
             }
-            m_SymbolToggles[_Player.SymbolType.GetHashCode()].isOn = true;
+            m_SymbolToggles[_Player.Symbol.GetHashCode()].isOn = true;
             m_SymbolToggles[m_OpponentSetting.SymbolValue].interactable = false;
             
             m_ToggleGroup.allowSwitchOff = false;
@@ -96,7 +96,7 @@ namespace TicTacToe
         {
             DataManager.Instance.SetPlayerInfo(m_PlayerType, _Player);
         }
-        public int SymbolValue => Player.SymbolType.GetHashCode();
+        public int SymbolValue => Player.Symbol.GetHashCode();
         // -------------------------------------------------------------------------------------
         // Private Funtion
 

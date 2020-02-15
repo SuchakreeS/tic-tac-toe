@@ -1266,7 +1266,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1 &175476278
 GameObject:
   m_ObjectHideFlags: 0
@@ -3163,8 +3163,9 @@ GameObject:
   - component: {fileID: 702575595}
   - component: {fileID: 702575596}
   - component: {fileID: 702575597}
+  - component: {fileID: 702575598}
   m_Layer: 5
-  m_Name: Size
+  m_Name: BoardSize
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3183,6 +3184,7 @@ RectTransform:
   m_Children:
   - {fileID: 161693053}
   - {fileID: 1138999453}
+  - {fileID: 1302088157}
   m_Father: {fileID: 1553461789}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3229,6 +3231,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AllowSwitchOff: 0
+--- !u!114 &702575598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 702575594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e61e367b0d22dda4998d8442bca754ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ToggleInfos:
+  - BoardSize: 3
+    Toggle: {fileID: 161693054}
+  - BoardSize: 4
+    Toggle: {fileID: 1138999454}
 --- !u!1 &708492382
 GameObject:
   m_ObjectHideFlags: 0
@@ -4009,7 +4028,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3f9afd3607e4c840804b7bcd1f9ea0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PlayerType: 1
+  m_PlayerType: 2
   m_OpponentSetting: {fileID: 1736908023}
   m_ControllerDropdown: {fileID: 93529007}
   m_ToggleGroup: {fileID: 1464837714}
@@ -5381,7 +5400,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!1 &1155615480
 GameObject:
   m_ObjectHideFlags: 0
@@ -5804,6 +5823,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1249433471}
   m_CullTransparentMesh: 0
+--- !u!1 &1302088156
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1302088157}
+  m_Layer: 5
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1302088157
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1302088156}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 702575595}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1314548044
 GameObject:
   m_ObjectHideFlags: 0
@@ -6006,6 +6060,7 @@ GameObject:
   - component: {fileID: 1392049182}
   - component: {fileID: 1392049186}
   - component: {fileID: 1392049183}
+  - component: {fileID: 1392049187}
   m_Layer: 5
   m_Name: Canvas.GamePlay
   m_TagString: Untagged
@@ -6094,10 +6149,25 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1392049181}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
+  m_Alpha: 0
+  m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &1392049187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392049181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb707b8b06e46cd43ba5575b7d3bf614, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UIGamePlay: {fileID: 1392049183}
+  m_UIBoard: {fileID: 178867239}
+  m_GameTime: 5
 --- !u!1 &1411432084
 GameObject:
   m_ObjectHideFlags: 0
@@ -7354,7 +7424,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1710656295}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -7527,7 +7597,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3f9afd3607e4c840804b7bcd1f9ea0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PlayerType: 0
+  m_PlayerType: 1
   m_OpponentSetting: {fileID: 843383618}
   m_ControllerDropdown: {fileID: 1055372177}
   m_ToggleGroup: {fileID: 2127152882}
@@ -7579,12 +7649,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3fc2ca0c2b01ca4a839572b8a77ee61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Player1Default:
-    ControlerType: 0
-    SymbolType: 2
-  m_Player2Default:
-    ControlerType: 1
-    SymbolType: 3
+  m_PlayerInfoDefault:
+  - Name: 1
+    Symbol: 0
+    Controller: 0
+  - Name: 2
+    Symbol: 1
+    Controller: 1
   m_MatchSizeDefault: 3
 --- !u!1 &1841710108
 GameObject:

@@ -28,7 +28,7 @@ namespace TicTacToe
         // -------------------------------------------------------------------------------------
         private GridLayoutGroup _GridLayout;
         private Dictionary<SymbolType, SymbolInfo> _SymbolInfos = new Dictionary<SymbolType, SymbolInfo>();
-        // -------------------------------------------------------------------------------------
+        private Action<Position> _OnClickBoard;
         private int _Size;
         private UICell[,] _UICells;
         // -------------------------------------------------------------------------------------
@@ -52,6 +52,11 @@ namespace TicTacToe
             if(_pos.Row >= _Size || _pos.Column >= _Size) return;
             _UICells[_pos.Row, _pos.Column].SetSymbol(_SymbolInfos[_type].Texture);
         }
+        public IObservable<Position> OnClickBoardAsObservable() => Observable.FromEvent<Position>
+        (
+            _action => _OnClickBoard += _action,
+            _action => _OnClickBoard -= _action
+        );
         // -------------------------------------------------------------------------------------
         // Private Funtion
         public void Refresh(int _size = 3)
@@ -69,8 +74,8 @@ namespace TicTacToe
             CreateCells();
 
             // Update Symbol
-            m_Player1Symbol.texture = _SymbolInfos[DataManager.Player1.SymbolType].Texture;
-            m_Player2Symbol.texture = _SymbolInfos[DataManager.Player2.SymbolType].Texture;
+            m_Player1Symbol.texture = _SymbolInfos[DataManager.PlayersInfo[0].Symbol].Texture;
+            m_Player2Symbol.texture = _SymbolInfos[DataManager.PlayersInfo[1].Symbol].Texture;
         }
         private void CreateCells()
         {
@@ -80,6 +85,10 @@ namespace TicTacToe
                 {
                     var cell = Instantiate(m_UICellPrefab, transform);
                     cell.ClearSymbol();
+                    cell.Button.OnClickAsObservable().Subscribe(_ => 
+                    {
+                        _OnClickBoard?.Invoke(new Position(i, j));
+                    }).AddTo(this);
                     _UICells[i, j] = cell;
                 }
             }
