@@ -18,8 +18,8 @@ namespace TicTacToe
             public Toggle Toggle;
         }
         // -------------------------------------------------------------------------------------
-
-        [SerializeField] private ToggleInfo[] ToggleInfos;
+        [SerializeField] private ToggleGroup m_ToggleGroup;
+        [SerializeField] private ToggleInfo[] m_ToggleInfos;
         // -------------------------------------------------------------------------------------
         private BoardSize _BoardSize;
         private bool _IsSetup;
@@ -29,7 +29,7 @@ namespace TicTacToe
         // Unity Funtion
         private void Start()
         {
-            foreach (var info in ToggleInfos)
+            foreach (var info in m_ToggleInfos)
             {
                 _ToggleDict[info.BoardSize] = info.Toggle;
             }
@@ -49,6 +49,16 @@ namespace TicTacToe
 
         // -------------------------------------------------------------------------------------
         // Public Funtion
+        public void RefreshSetting()
+        {
+            m_ToggleGroup.allowSwitchOff = true;
+            foreach (var boardSize in _ToggleDict.Keys)
+            {
+                _ToggleDict[boardSize].isOn = false;
+            }
+            _ToggleDict[DataManager.BoardSize].isOn = true;
+            m_ToggleGroup.allowSwitchOff = false;
+        }
         // -------------------------------------------------------------------------------------
         // Private Funtion
         private void UpdateData()

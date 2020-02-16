@@ -37,7 +37,7 @@ namespace TicTacToe
         public void LoadData()
         {
         }
-        public PlayerInfo GetPlayerInfo(PlayerName _playerName)
+        public static PlayerInfo GetPlayerInfo(PlayerName _playerName)
         {
             foreach(var info in _PlayersInfo)
             {
@@ -48,7 +48,7 @@ namespace TicTacToe
             }
             return _PlayersInfo[0];
         }
-        public void SetPlayerInfo(PlayerName _playerName, PlayerInfo _playerInfo)
+        public static void SetPlayerInfo(PlayerName _playerName, PlayerInfo _playerInfo)
         {
             for (int i = 0; i < _PlayersInfo.Length; i++)
             {

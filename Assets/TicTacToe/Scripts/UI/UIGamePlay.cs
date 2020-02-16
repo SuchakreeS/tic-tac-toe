@@ -14,6 +14,7 @@ namespace TicTacToe
         // -------------------------------------------------------------------------------------
         [SerializeField] private Button m_BackButton;
         [SerializeField] private UIBoard m_UIBoard;
+        [SerializeField] private GameController m_GameController;
         // -------------------------------------------------------------------------------------
         // Unity Funtion
         private void Start()
@@ -27,6 +28,8 @@ namespace TicTacToe
         public override void InitCanvas()
         {
             m_UIBoard.Refresh(DataManager.BoardSize.GetHashCode());
+            m_GameController.GameReset();
+            m_GameController.GameStart();
         }
         // -------------------------------------------------------------------------------------
         // Private Funtion

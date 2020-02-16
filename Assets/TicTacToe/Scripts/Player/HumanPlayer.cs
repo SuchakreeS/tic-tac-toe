@@ -23,17 +23,22 @@ namespace TicTacToe
             (
                 _observer => 
                 {
-                    var gameTime = Observable.Timer(TimeSpan.FromSeconds((int)_gameTime)).Subscribe(_ => 
-                    {
-                        _observer.OnNext(new Position(-1, -1));
-                        _observer.OnCompleted();
-                    });
+                    var gameTime = Observable
+                        .Timer(TimeSpan.FromSeconds((int)_gameTime))
+                        .Subscribe(_ => 
+                        {
+                            _observer.OnNext(_stage.RandomPosition());
+                            _observer.OnCompleted();
+                        });
 
-                    var dicision = _UIBoard.OnClickBoardAsObservable().Subscribe(_position => 
-                    {
-                        _observer.OnNext(_position);
-                        _observer.OnCompleted();
-                    });
+                    var dicision = _UIBoard
+                        .OnClickBoardAsObservable()
+                        .Where(_pos => _stage.CheckPosibleDecision(_pos))
+                        .Subscribe(_position => 
+                        {
+                            _observer.OnNext(_position);
+                            _observer.OnCompleted();
+                        });
                     
                     return Disposable.Create(() => 
                     {

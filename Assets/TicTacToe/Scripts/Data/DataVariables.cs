@@ -4,6 +4,7 @@ namespace TicTacToe
 {
     public enum PlayerName
     {
+        None = -1,
         Player1 = 1,
         Player2 = 2
     }
@@ -34,6 +35,7 @@ namespace TicTacToe
             Row = _row;
             Column = _column;
         }
+        public override string ToString() => $"[{Row}, {Column}]";
     }
     [Serializable]
     public struct PlayerInfo

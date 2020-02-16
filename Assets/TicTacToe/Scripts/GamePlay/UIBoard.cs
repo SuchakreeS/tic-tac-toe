@@ -43,6 +43,7 @@ namespace TicTacToe
             {
                 _SymbolInfos[info.Type] = info;
             }
+            GameController.Instance.OnSelectedAsObservable().Subscribe(_info => SetCell(DataManager.GetPlayerInfo(_info.PlayerName).Symbol, _info.Position)).AddTo(this);
         }
         // -------------------------------------------------------------------------------------
         // Public Funtion
@@ -81,13 +82,15 @@ namespace TicTacToe
         {
             for (int i = 0; i < _Size; i++)
             {
+                var indexI = i;
                 for (int j = 0; j < _Size; j++)
                 {
+                    var indexJ = j;
                     var cell = Instantiate(m_UICellPrefab, transform);
                     cell.ClearSymbol();
                     cell.Button.OnClickAsObservable().Subscribe(_ => 
                     {
-                        _OnClickBoard?.Invoke(new Position(i, j));
+                        _OnClickBoard?.Invoke(new Position(indexI, indexJ));
                     }).AddTo(this);
                     _UICells[i, j] = cell;
                 }

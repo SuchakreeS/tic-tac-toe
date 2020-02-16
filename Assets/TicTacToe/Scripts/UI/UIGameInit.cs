@@ -13,6 +13,7 @@ namespace TicTacToe
         // -------------------------------------------------------------------------------------
         [SerializeField] private UIPlayerSetting m_Player1Setting;
         [SerializeField] private UIPlayerSetting m_Player2Setting;
+        [SerializeField] private UIBoardSizeSetting m_BoardSizeSetting;
         [SerializeField] private Button m_PlayButton;
         [SerializeField] private Button m_BackButton;
         // -------------------------------------------------------------------------------------
@@ -29,6 +30,7 @@ namespace TicTacToe
             Debug.Log("InitCamvas");
             m_Player1Setting.RefreshSetting();
             m_Player2Setting.RefreshSetting();
+            m_BoardSizeSetting.RefreshSetting();
         }
         // -------------------------------------------------------------------------------------
         // Private Funtion

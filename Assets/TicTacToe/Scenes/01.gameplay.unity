@@ -3243,7 +3243,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e61e367b0d22dda4998d8442bca754ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ToggleInfos:
+  m_ToggleGroup: {fileID: 702575597}
+  m_ToggleInfos:
   - BoardSize: 3
     Toggle: {fileID: 161693054}
   - BoardSize: 4
@@ -6099,6 +6100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BackButton: {fileID: 1039257351}
   m_UIBoard: {fileID: 178867239}
+  m_GameController: {fileID: 1392049187}
 --- !u!223 &1392049184
 Canvas:
   m_ObjectHideFlags: 0
@@ -6167,7 +6169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_UIGamePlay: {fileID: 1392049183}
   m_UIBoard: {fileID: 178867239}
-  m_GameTime: 5
+  m_GameTime: 999999
 --- !u!1 &1411432084
 GameObject:
   m_ObjectHideFlags: 0
@@ -7480,6 +7482,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Player1Setting: {fileID: 1736908023}
   m_Player2Setting: {fileID: 843383618}
+  m_BoardSizeSetting: {fileID: 702575598}
   m_PlayButton: {fileID: 226414037}
   m_BackButton: {fileID: 1040457477}
 --- !u!1 &1736908017
@@ -7655,7 +7658,7 @@ MonoBehaviour:
     Controller: 0
   - Name: 2
     Symbol: 1
-    Controller: 1
+    Controller: 0
   m_MatchSizeDefault: 3
 --- !u!1 &1841710108
 GameObject:
