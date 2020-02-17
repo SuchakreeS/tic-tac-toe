@@ -18,7 +18,8 @@ namespace TicTacToe
         Chip,
         Club,
         Diamond,
-        Heart
+        Heart,
+        None = -1
     }
     public enum BoardSize
     {
@@ -35,7 +36,17 @@ namespace TicTacToe
             Row = _row;
             Column = _column;
         }
+        public static Position None => new Position(-1, -1);
         public override string ToString() => $"[{Row}, {Column}]";
+        public static bool operator==(Position _x, Position _y) => _x.Row == _y.Row && _x.Column == _y.Column;
+        public static bool operator!=(Position _x, Position _y) => _x.Row != _y.Row || _x.Column != _y.Column;
+
+        public override int GetHashCode() => base.GetHashCode();
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+            return base.Equals (obj);
+        }
     }
     [Serializable]
     public struct PlayerInfo

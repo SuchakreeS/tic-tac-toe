@@ -27,8 +27,10 @@ namespace TicTacToe
         private PlayerName _WonPlayer;
         private int _WinAmount;
         // -------------------------------------------------------------------------------------
+        public Position Selected => _Selected;
         public PlayerName WonPlayer => _WonPlayer;
         public StageStatus Status => _Status;
+        public PlayerName CurrentTurn => _CurrentTurn;
         public int[,] BoardData => _BoardData;
         // -------------------------------------------------------------------------------------
         public GameStage(BoardSize _boardSize, int[,] _boardData, PlayerName[] _players, PlayerName _currentTurn, int _winAmount = -1)
@@ -45,15 +47,17 @@ namespace TicTacToe
                 _WinAmount = _winAmount;
             _WonPlayer = CheckWonPlayer();
             _Status = CheckStatus();
-            UnityEngine.Debug.Log(_WonPlayer);
         }
         // -------------------------------------------------------------------------------------
         // Public Funtion
         public bool SelectPosition(Position _position)
         {
+            if(_position == Position.None)
+                _position = RandomPosition();
             if(_BoardData[_position.Row, _position.Column] == 0 && _Status == StageStatus.Waiting)
             {
                 _BoardData[_position.Row, _position.Column] = (int)_CurrentTurn;
+                _Selected = _position;
                 _Status = StageStatus.Selected;
                 PrintStage();
                 return true;
@@ -77,9 +81,21 @@ namespace TicTacToe
             }
             return new Position(-1, -1);
         }
+        public bool Undo()
+        {
+            if(_Status == StageStatus.Selected && _Selected != Position.None)
+            {
+                _BoardData[_Selected.Row, _Selected.Column] = 0;
+                UnityEngine.Debug.Log($"[{_Selected.ToString()}]: {_BoardData[_Selected.Row, _Selected.Column]}");
+                _Selected = Position.None;
+                _Status = StageStatus.Waiting;
+                return true;
+            }
+            return false;
+        }
         // -------------------------------------------------------------------------------------
         // Private Funtion
-        private void PrintStage()
+        public void PrintStage()
         {
             var stage = "";
             for (int i = 0; i < (int)_BoardSize; i++)

@@ -19,7 +19,7 @@ namespace TicTacToe
             public Texture2D Texture;
         }
         // -------------------------------------------------------------------------------------
-        [Header("Score object")]
+        [Header("Player object")]
         [SerializeField] private RawImage m_Player1Symbol;
         [SerializeField] private RawImage m_Player2Symbol;
         [Header("Board object")]
@@ -43,7 +43,12 @@ namespace TicTacToe
             {
                 _SymbolInfos[info.Type] = info;
             }
-            GameController.Instance.OnSelectedAsObservable().Subscribe(_info => SetCell(DataManager.GetPlayerInfo(_info.PlayerName).Symbol, _info.Position)).AddTo(this);
+            GameController.Instance.OnGameSelectedAsObservable().Subscribe(_info => SetCell(DataManager.GetPlayerInfo(_info.PlayerName).Symbol, _info.Position)).AddTo(this);
+            GameController.Instance.OnUndoAsObservable().Subscribe(_info => SetCell(SymbolType.None, _info.Position)).AddTo(this);
+            GameController.Instance.OnGameCompletedAsObservable().Subscribe(_wonPlayer => 
+            {
+                
+            }).AddTo(this);
         }
         // -------------------------------------------------------------------------------------
         // Public Funtion
@@ -51,7 +56,9 @@ namespace TicTacToe
         public void SetCell(SymbolType _type, Position _pos)
         {
             if(_pos.Row >= _Size || _pos.Column >= _Size) return;
-            _UICells[_pos.Row, _pos.Column].SetSymbol(_SymbolInfos[_type].Texture);
+                _UICells[_pos.Row, _pos.Column].SetSymbol(_SymbolInfos[_type].Texture);
+            if(_type == SymbolType.None)
+                _UICells[_pos.Row, _pos.Column].ClearSymbol();
         }
         public IObservable<Position> OnClickBoardAsObservable() => Observable.FromEvent<Position>
         (

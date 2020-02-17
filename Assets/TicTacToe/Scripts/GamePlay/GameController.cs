@@ -43,7 +43,9 @@ namespace TicTacToe
         private IDisposable _Disposable;
         private bool _CanStartNextTurn;
         // -------------------------------------------------------------------------------------
-        private Action<ActionInfo> _OnSelected;
+        private Action<ActionInfo> _OnUndo;
+        private Action<ActionInfo> _OnGameSelected;
+        private Action<PlayerName> _OnGameCompleted;
         // -------------------------------------------------------------------------------------
         // Unity Funtion
         private void Start()
@@ -51,30 +53,32 @@ namespace TicTacToe
         }
         // -------------------------------------------------------------------------------------
         // Public Funtion
-        // Call this function for 
-        public void GameReset()
+        public void GameReset(bool _continue = false)
         {
             // Load Data
             var playersInfo = DataManager.PlayersInfo;
 
             // Init Variable
             _GameStageList = new List<GameStage>();
-            _PlayersName = new PlayerName[playersInfo.Length];
-            _Players = new Player[playersInfo.Length];
             _BoardSize = DataManager.BoardSize;
             _TurnCount = 0;
 
-            for (int i = 0; i < playersInfo.Length; i++)
+            if(!_continue)
             {
-                if(playersInfo[i].Controller == ControllerType.Human)
+                _PlayersName = new PlayerName[playersInfo.Length];
+                _Players = new Player[playersInfo.Length];
+                for (int i = 0; i < playersInfo.Length; i++)
                 {
-                    _Players[i] = new HumanPlayer(playersInfo[i].Name, playersInfo[i].Symbol, m_UIBoard);
+                    if(playersInfo[i].Controller == ControllerType.Human)
+                    {
+                        _Players[i] = new HumanPlayer(playersInfo[i].Name, playersInfo[i].Symbol, m_UIBoard);
+                    }
+                    else if(playersInfo[i].Controller == ControllerType.AI)
+                    {
+                        _Players[i] = new AIPlayer(playersInfo[i].Name, playersInfo[i].Symbol);
+                    }
+                    _PlayersName[i] = playersInfo[i].Name;
                 }
-                else if(playersInfo[i].Controller == ControllerType.AI)
-                {
-                    _Players[i] = new AIPlayer(playersInfo[i].Name, playersInfo[i].Symbol);
-                }
-                _PlayersName[i] = playersInfo[i].Name;
             }
         }
         public void GameStart()
@@ -87,10 +91,7 @@ namespace TicTacToe
             _Status = true;
             _Disposable?.Dispose();
             _Disposable = OnTurnProcessAsObservable().Subscribe().AddTo(this);
-            OnBoardOverAsObservable().Subscribe(_wonPlayer => 
-            {
-                Debug.Log($"_wonPlayer: {_wonPlayer}");
-            }).AddTo(this);
+            OnGameCompleted().Subscribe(_wonPlayer => {}).AddTo(this);
         }
         public void GamePause()
         {
@@ -100,14 +101,69 @@ namespace TicTacToe
         {
             // No need
         }
-        public IObservable<ActionInfo> OnSelectedAsObservable() => Observable.FromEvent<ActionInfo>
+        public void Undo()
+        {
+            if(_TurnCount > 1)
+            {
+                _TurnCount--;
+                var stage = GetGameStage();
+                var ActionInfo = new ActionInfo(stage.CurrentTurn, stage.Selected);
+                stage.PrintStage();
+                Debug.Log(stage.Undo());
+                stage.PrintStage();
+                _OnUndo?.Invoke(ActionInfo);
+                _Disposable?.Dispose();
+            }
+        }
+        public IObservable<ActionInfo> OnUndoAsObservable() => Observable.FromEvent<ActionInfo>
         (
-            _action => _OnSelected += _action,
-            _action => _OnSelected -= _action
+            _action => _OnUndo += _action,
+            _action => _OnUndo -= _action
         );
+        public IObservable<ActionInfo> OnGameSelectedAsObservable() => Observable.FromEvent<ActionInfo>
+        (
+            _action => _OnGameSelected += _action,
+            _action => _OnGameSelected -= _action
+        );
+        public IObservable<PlayerName> OnGameCompletedAsObservable() => Observable.FromEvent<PlayerName>
+        (
+            _action => _OnGameCompleted += _action,
+            _action => _OnGameCompleted -= _action
+        );
+        public void SwitchPlayers()
+        {
+            var players = new Player[_Players.Length];
+            var playerNames = new PlayerName[_PlayersName.Length];
+
+            for (int i = 0; i < _Players.Length; i++)
+            {
+                players[i] = _Players[(i+1)%_Players.Length];
+            }
+            for (int i = 0; i < _PlayersName.Length; i++)
+            {
+                Debug.Log($"i: {i}: {_PlayersName[(i+1)%_PlayersName.Length]}");
+                playerNames[i] = _PlayersName[(i+1)%_PlayersName.Length];
+                Debug.Log($"playerNames[{i}] =  {playerNames[i]}");
+            }
+            _Players = players;
+            _PlayersName = playerNames;
+            Debug.Log($"_Players[0] =  {_Players[0].PlayerName}, _Players[1] =  {_Players[1].PlayerName}");
+            Debug.Log($"playerNames[0] =  {_PlayersName[0]}, playerNames[1] =  {_PlayersName[1]}");
+        }
+        public Player GetPlayer(PlayerName _playerName)
+        {
+            foreach (var player in _Players)
+            {
+                if(player.PlayerName == _playerName)
+                {
+                    return player;
+                }
+            }
+            return null;
+        }
         // -------------------------------------------------------------------------------------
         // Private Funtion
-        private IObservable<PlayerName> OnBoardOverAsObservable()
+        private IObservable<PlayerName> OnGameCompleted()
         {
             return Observable.Create<PlayerName>
             (
@@ -118,7 +174,10 @@ namespace TicTacToe
                         _Disposable?.Dispose();
                         _Disposable = OnTurnProcessAsObservable().Where(_value => _value).Subscribe(_boardOver => 
                         {
-                            _observer.OnNext(GetGameStage().WonPlayer);
+                            var wonPlayer = GetGameStage().WonPlayer;
+                            AddScore(wonPlayer);
+                            _OnGameCompleted?.Invoke(wonPlayer);
+                            _observer.OnNext(wonPlayer);
                             _observer.OnCompleted();
                         }).AddTo(this);
                     }).AddTo(this);
@@ -137,30 +196,50 @@ namespace TicTacToe
                     var player = GetPlayer();
                     if(gameStage.Status == StageStatus.MatchOver)
                     {
-                        Debug.Log("#### MatchOver ####");
                         _observer.OnNext(true);
                         _observer.OnCompleted();
                     }
                     var disposable = player.MakeDicision(gameStage, m_GameTime).Subscribe(_position =>
                     {
+                        if(_position == Position.None)
+                            _position = gameStage.RandomPosition();
                         gameStage.SelectPosition(_position);
-                        _OnSelected?.Invoke(new ActionInfo(player.PlayerName, _position));
+                        _OnGameSelected?.Invoke(new ActionInfo(player.PlayerName, _position));
                         _TurnCount++;
-
+                        
                         var nextStage = new GameStage(_BoardSize, gameStage.BoardData, _PlayersName, GetPlayerName());
+                        while(_GameStageList.Count >= _TurnCount)
+                        {
+                            _GameStageList.RemoveAt(_GameStageList.Count - 1);
+                        }
                         _GameStageList.Add(nextStage);
 
-                        _CanStartNextTurn = true;
                         _observer.OnNext(false);
                         _observer.OnCompleted();
                     }).AddTo(this);
-                    return Disposable.Create(() => disposable?.Dispose());
+                    return Disposable.Create(() => 
+                    {
+                        _CanStartNextTurn = true;
+                        disposable?.Dispose();
+                    });
                 }
             );
         }
         private Player GetPlayer() => _Players[(_TurnCount-1)%_Players.Length];
         private GameStage GetGameStage() => _GameStageList[_TurnCount-1];
         private PlayerName GetPlayerName() => _PlayersName[(_TurnCount-1)%_PlayersName.Length];
+        private void AddScore(PlayerName _playerName)
+        {
+            foreach (var player in _Players)
+            {
+                if(player.PlayerName == _playerName)
+                {
+                    player.Score ++;
+                    Debug.Log($"{player.PlayerName}: {player.Score}");
+                    break;
+                }
+            }
+        }
         // -------------------------------------------------------------------------------------
     }
 }
