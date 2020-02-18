@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UniRx;
-using System;
-using Miximum;
+﻿using System;
 
 namespace TicTacToe
 {
@@ -22,9 +17,6 @@ namespace TicTacToe
         // -------------------------------------------------------------------------------------
         // Public Funtion
         public abstract IObservable<Position> MakeDicision(GameStage _stage, GameTime _gameTime);
-        // -------------------------------------------------------------------------------------
-        // Private Funtion
-        
         // -------------------------------------------------------------------------------------
     }
 }

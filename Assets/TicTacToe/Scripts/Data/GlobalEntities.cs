@@ -26,6 +26,13 @@ namespace TicTacToe
         SIZE_3x3 = 3,
         SIZE_4x4 = 4
     }
+    public enum UIName 
+    {
+        None, 
+        Menu, 
+        GameInit, 
+        GamePlay
+    }
     public struct Position
     {
         public int Row;
@@ -54,6 +61,24 @@ namespace TicTacToe
         public PlayerName Name;
         public SymbolType Symbol;
         public ControllerType Controller;
+    }
+    public enum GameTime
+    {
+        Infinity = 999999,
+        FiveSeconds = 5,
+        TenSeconds = 10,
+        ThirtySeconds = 30,
+    }
+    public struct ActionInfo
+    {
+        public PlayerName PlayerName;
+        public Position Position;
+
+        public ActionInfo(PlayerName _playerName, Position _position)
+        {
+            PlayerName = _playerName;
+            Position = _position;
+        }
     }
 }
 

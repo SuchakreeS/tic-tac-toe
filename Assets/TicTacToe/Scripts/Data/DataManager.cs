@@ -28,15 +28,8 @@ namespace TicTacToe
             _PlayersInfo = m_PlayerInfoDefault;
             _BoardSize = m_MatchSizeDefault;
         }
-        private void Start()
-        {
-            // Load Data
-        }
         // -------------------------------------------------------------------------------------
         // Public Funtion
-        public void LoadData()
-        {
-        }
         public static PlayerInfo GetPlayerInfo(PlayerName _playerName)
         {
             foreach(var info in _PlayersInfo)

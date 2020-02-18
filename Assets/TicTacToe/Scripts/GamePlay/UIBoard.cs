@@ -25,6 +25,8 @@ namespace TicTacToe
         [Header("Board object")]
         [SerializeField] private UICell m_UICellPrefab;
         [SerializeField] private List<SymbolInfo> m_SymbolInfo;
+        [SerializeField] private RawImage m_WinSymbol;
+        [SerializeField] private TextMeshProUGUI WaitNextGameText;
         // -------------------------------------------------------------------------------------
         private GridLayoutGroup _GridLayout;
         private Dictionary<SymbolType, SymbolInfo> _SymbolInfos = new Dictionary<SymbolType, SymbolInfo>();
@@ -47,7 +49,17 @@ namespace TicTacToe
             GameController.Instance.OnUndoAsObservable().Subscribe(_info => SetCell(SymbolType.None, _info.Position)).AddTo(this);
             GameController.Instance.OnGameCompletedAsObservable().Subscribe(_wonPlayer => 
             {
-                
+                if(_wonPlayer != PlayerName.None)
+                {
+                    m_WinSymbol.color = Color.white;
+                    m_WinSymbol.texture = _SymbolInfos[DataManager.GetPlayerInfo(_wonPlayer).Symbol].Texture;
+                    WaitNextGameText.text = $"{_wonPlayer} Won!";
+                }
+                else
+                {
+                    m_WinSymbol.color = new Color(0f, 0f, 0f, 0f);
+                    WaitNextGameText.text = $"Draw!";
+                }
             }).AddTo(this);
         }
         // -------------------------------------------------------------------------------------
@@ -65,8 +77,6 @@ namespace TicTacToe
             _action => _OnClickBoard += _action,
             _action => _OnClickBoard -= _action
         );
-        // -------------------------------------------------------------------------------------
-        // Private Funtion
         public void Refresh(int _size = 3)
         {
             _Size = _size;
@@ -85,6 +95,8 @@ namespace TicTacToe
             m_Player1Symbol.texture = _SymbolInfos[DataManager.PlayersInfo[0].Symbol].Texture;
             m_Player2Symbol.texture = _SymbolInfos[DataManager.PlayersInfo[1].Symbol].Texture;
         }
+        // -------------------------------------------------------------------------------------
+        // Private Funtion
         private void CreateCells()
         {
             for (int i = 0; i < _Size; i++)

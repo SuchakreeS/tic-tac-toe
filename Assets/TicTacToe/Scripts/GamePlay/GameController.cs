@@ -7,24 +7,6 @@ using Miximum;
 
 namespace TicTacToe
 {
-    public enum GameTime
-    {
-        Infinity = 999999,
-        FiveSeconds = 5,
-        TenSeconds = 10,
-        ThirtySeconds = 30,
-    }
-    public struct ActionInfo
-    {
-        public PlayerName PlayerName;
-        public Position Position;
-
-        public ActionInfo(PlayerName _playerName, Position _position)
-        {
-            PlayerName = _playerName;
-            Position = _position;
-        }
-    }
     public class GameController : Singleton<GameController>
     {
         // -------------------------------------------------------------------------------------
@@ -42,18 +24,16 @@ namespace TicTacToe
         private PlayerName[] _PlayersName;
         private IDisposable _Disposable;
         private bool _CanStartNextTurn;
+        private bool _IsAddScore;
         // -------------------------------------------------------------------------------------
         private Action<ActionInfo> _OnUndo;
         private Action<ActionInfo> _OnGameSelected;
         private Action<PlayerName> _OnGameCompleted;
         // -------------------------------------------------------------------------------------
-        // Unity Funtion
-        private void Start()
-        {
-        }
+        public int TurnCount => _TurnCount;
         // -------------------------------------------------------------------------------------
         // Public Funtion
-        public void GameReset(bool _continue = false)
+        public void InitGame(bool _continue = false)
         {
             // Load Data
             var playersInfo = DataManager.PlayersInfo;
@@ -62,44 +42,23 @@ namespace TicTacToe
             _GameStageList = new List<GameStage>();
             _BoardSize = DataManager.BoardSize;
             _TurnCount = 0;
+            _IsAddScore = false;
 
             if(!_continue)
             {
-                _PlayersName = new PlayerName[playersInfo.Length];
-                _Players = new Player[playersInfo.Length];
-                for (int i = 0; i < playersInfo.Length; i++)
-                {
-                    if(playersInfo[i].Controller == ControllerType.Human)
-                    {
-                        _Players[i] = new HumanPlayer(playersInfo[i].Name, playersInfo[i].Symbol, m_UIBoard);
-                    }
-                    else if(playersInfo[i].Controller == ControllerType.AI)
-                    {
-                        _Players[i] = new AIPlayer(playersInfo[i].Name, playersInfo[i].Symbol);
-                    }
-                    _PlayersName[i] = playersInfo[i].Name;
-                }
+                InitPlayerInfo(playersInfo);
             }
-        }
-        public void GameStart()
-        {
-            // Create Stage
-            var boardData = new int[(int)_BoardSize, (int)_BoardSize];
+
+            // Start Game
             _TurnCount++;
+            var boardData = new int[(int)_BoardSize, (int)_BoardSize];
             var stage = new GameStage(_BoardSize, boardData, _PlayersName, GetPlayerName());
             _GameStageList.Add(stage);
             _Status = true;
+
             _Disposable?.Dispose();
             _Disposable = OnTurnProcessAsObservable().Subscribe().AddTo(this);
-            OnGameCompleted().Subscribe(_wonPlayer => {}).AddTo(this);
-        }
-        public void GamePause()
-        {
-            // No need
-        }
-        public void GameContinue()
-        {
-            // No need
+            OnGameCompleted().Subscribe().AddTo(this);
         }
         public void Undo()
         {
@@ -130,26 +89,6 @@ namespace TicTacToe
             _action => _OnGameCompleted += _action,
             _action => _OnGameCompleted -= _action
         );
-        public void SwitchPlayers()
-        {
-            var players = new Player[_Players.Length];
-            var playerNames = new PlayerName[_PlayersName.Length];
-
-            for (int i = 0; i < _Players.Length; i++)
-            {
-                players[i] = _Players[(i+1)%_Players.Length];
-            }
-            for (int i = 0; i < _PlayersName.Length; i++)
-            {
-                Debug.Log($"i: {i}: {_PlayersName[(i+1)%_PlayersName.Length]}");
-                playerNames[i] = _PlayersName[(i+1)%_PlayersName.Length];
-                Debug.Log($"playerNames[{i}] =  {playerNames[i]}");
-            }
-            _Players = players;
-            _PlayersName = playerNames;
-            Debug.Log($"_Players[0] =  {_Players[0].PlayerName}, _Players[1] =  {_Players[1].PlayerName}");
-            Debug.Log($"playerNames[0] =  {_PlayersName[0]}, playerNames[1] =  {_PlayersName[1]}");
-        }
         public Player GetPlayer(PlayerName _playerName)
         {
             foreach (var player in _Players)
@@ -160,6 +99,11 @@ namespace TicTacToe
                 }
             }
             return null;
+        }
+        public void ReGame()
+        {
+            SwitchPlayers();
+            InitGame(true);
         }
         // -------------------------------------------------------------------------------------
         // Private Funtion
@@ -230,15 +174,50 @@ namespace TicTacToe
         private PlayerName GetPlayerName() => _PlayersName[(_TurnCount-1)%_PlayersName.Length];
         private void AddScore(PlayerName _playerName)
         {
+            if(_IsAddScore) return;
+            
             foreach (var player in _Players)
             {
                 if(player.PlayerName == _playerName)
                 {
                     player.Score ++;
-                    Debug.Log($"{player.PlayerName}: {player.Score}");
                     break;
                 }
             }
+            _IsAddScore = true;
+        }
+        private void InitPlayerInfo(PlayerInfo[] playersInfo)
+        {
+            _PlayersName = new PlayerName[playersInfo.Length];
+            _Players = new Player[playersInfo.Length];
+            for (int i = 0; i < playersInfo.Length; i++)
+            {
+                if (playersInfo[i].Controller == ControllerType.Human)
+                {
+                    _Players[i] = new HumanPlayer(playersInfo[i].Name, playersInfo[i].Symbol, m_UIBoard);
+                }
+                else if (playersInfo[i].Controller == ControllerType.AI)
+                {
+                    _Players[i] = new AIPlayer(playersInfo[i].Name, playersInfo[i].Symbol);
+                }
+                _PlayersName[i] = playersInfo[i].Name;
+            }
+        }
+        private void SwitchPlayers()
+        {
+            var players = new Player[_Players.Length];
+            var playerNames = new PlayerName[_PlayersName.Length];
+
+            for (int i = 0; i < _Players.Length; i++)
+            {
+                players[i] = _Players[(i+1)%_Players.Length];
+            }
+            for (int i = 0; i < _PlayersName.Length; i++)
+            {
+                playerNames[i] = _PlayersName[(i+1)%_PlayersName.Length];
+            }
+            _Players = players;
+            _PlayersName = playerNames;
         }
         // -------------------------------------------------------------------------------------
     }

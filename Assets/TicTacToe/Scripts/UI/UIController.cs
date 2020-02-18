@@ -7,24 +7,17 @@ using Miximum;
 
 namespace TicTacToe
 {
-    public enum UIName 
-    {
-        None, 
-        Menu, 
-        GameInit, 
-        GamePlay
-    }
     public class UIController : Singleton<UIController>
     {
         // -------------------------------------------------------------------------------------
-        private const int DURATION_FADE_TRANSITION = 300;
-        // -------------------------------------------------------------------------------------
         [Serializable]
-        public struct CanvasInfo
+        private struct CanvasInfo
         {
             public UIName Name;
             public UICanvas UICanvas;
         }
+        // -------------------------------------------------------------------------------------
+        private const int DURATION_FADE_TRANSITION = 300;
         // -------------------------------------------------------------------------------------
         [Header("Canvas Setting")]
         [SerializeField] private CanvasInfo[] m_CanvasInfos;

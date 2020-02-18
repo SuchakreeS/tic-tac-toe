@@ -31,18 +31,29 @@ namespace TicTacToe
         // Unity Funtion
         private void Start()
         {
+            // Hide Wait For Next Game Canvas
             m_WaitForNextGameCanvas.SetAlpha(0);
+
+            // Subscribe Button
             m_BackButton.OnClickAsObservable().Subscribe(_ => OnBackButton()).AddTo(this);
-            m_UndoButton.OnClickAsObservable().Subscribe(_ => GameController.Instance.Undo()).AddTo(this);
-            m_ReplayButton.OnClickAsObservable().Subscribe(_ => 
+            m_ReplayButton.OnClickAsObservable().Subscribe(_ => ReGame()).AddTo(this);
+            m_UndoButton.OnClickAsObservable().Subscribe(_ => 
             {
-                m_UIBoard.Refresh(DataManager.BoardSize.GetHashCode());
-                GameController.Instance.SwitchPlayers();
-                GameController.Instance.GameReset(true);
-                GameController.Instance.GameStart();
-                m_WaitForNextGameCanvas.SetAlpha(0);
+                GameController.Instance.Undo();
+                if(GameController.Instance.TurnCount > 1)
+                    m_UndoButton.gameObject.SetActive(true);
+                else
+                    m_UndoButton.gameObject.SetActive(false);
             }).AddTo(this);
 
+            // Setup GameController As Observable
+            GameController.Instance.OnGameSelectedAsObservable().Subscribe(_ => 
+            {
+                if(GameController.Instance.TurnCount >= 1)
+                    m_UndoButton.gameObject.SetActive(true);
+                else
+                    m_UndoButton.gameObject.SetActive(false);
+            }).AddTo(this);
             GameController.Instance.OnGameCompletedAsObservable().Subscribe(_ => 
             {
                 m_WaitForNextGameCanvas.SetAlpha(1);
@@ -51,14 +62,15 @@ namespace TicTacToe
             }).AddTo(this);
         }
 
-
         // -------------------------------------------------------------------------------------
         // Public Funtion
         public override void InitCanvas()
         {
+            m_Player1Score.text = "0";
+            m_Player2Score.text = "0";
             m_UIBoard.Refresh(DataManager.BoardSize.GetHashCode());
-            m_GameController.GameReset();
-            m_GameController.GameStart();
+            m_UndoButton.gameObject.SetActive(false);
+            m_GameController.InitGame();
         }
         // -------------------------------------------------------------------------------------
         // Private Funtion
@@ -66,7 +78,13 @@ namespace TicTacToe
         {
             UIController.Instance.ChangeUI(UIName.Menu);
         }
-
+        private void ReGame()
+        {
+            m_UIBoard.Refresh(DataManager.BoardSize.GetHashCode());
+            m_UndoButton.gameObject.SetActive(false);
+            GameController.Instance.ReGame();
+            m_WaitForNextGameCanvas.SetAlpha(0);
+        }
         // -------------------------------------------------------------------------------------
         
     }
