@@ -46,7 +46,7 @@ namespace TicTacToe
                     m_UndoButton.gameObject.SetActive(false);
             }).AddTo(this);
 
-            // Setup GameController As Observable
+            // Enable Undo button as observable
             GameController.Instance.OnGameSelectedAsObservable().Subscribe(_ => 
             {
                 if(GameController.Instance.TurnCount >= 1)
@@ -54,11 +54,19 @@ namespace TicTacToe
                 else
                     m_UndoButton.gameObject.SetActive(false);
             }).AddTo(this);
+
+            // Update player scores
             GameController.Instance.OnGameCompletedAsObservable().Subscribe(_ => 
             {
                 m_WaitForNextGameCanvas.SetAlpha(1);
                 m_Player1Score.text = GameController.Instance.GetPlayer(PlayerName.Player1).Score.ToString();
                 m_Player2Score.text = GameController.Instance.GetPlayer(PlayerName.Player2).Score.ToString();
+            }).AddTo(this);
+            
+            // Update current turn
+            GameController.Instance.OnBeginTurnAsObservable().Subscribe(_playerName => 
+            {
+                m_UIBoard.UpdatePlayerSymbol(_playerName);
             }).AddTo(this);
         }
 

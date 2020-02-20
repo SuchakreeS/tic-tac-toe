@@ -95,6 +95,19 @@ namespace TicTacToe
             m_Player1Symbol.texture = _SymbolInfos[DataManager.PlayersInfo[0].Symbol].Texture;
             m_Player2Symbol.texture = _SymbolInfos[DataManager.PlayersInfo[1].Symbol].Texture;
         }
+        public void UpdatePlayerSymbol(PlayerName _playerName)
+        {
+            if(_playerName == PlayerName.Player1)
+            {
+                m_Player1Symbol.color = Color.white;
+                m_Player2Symbol.color = Color.gray;
+            }
+            else
+            {
+                m_Player2Symbol.color = Color.white;
+                m_Player1Symbol.color = Color.gray;
+            }
+        }
         // -------------------------------------------------------------------------------------
         // Private Funtion
         private void CreateCells()

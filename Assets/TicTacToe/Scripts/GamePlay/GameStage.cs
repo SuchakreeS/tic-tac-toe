@@ -27,11 +27,13 @@ namespace TicTacToe
         private PlayerName _WonPlayer;
         private int _WinAmount;
         // -------------------------------------------------------------------------------------
+        public PlayerName[] Players => _Players;
         public Position Selected => _Selected;
         public PlayerName WonPlayer => _WonPlayer;
         public StageStatus Status => _Status;
         public PlayerName CurrentTurn => _CurrentTurn;
         public int[,] BoardData => _BoardData;
+        public List<Position> PosiblePosition => _PosiblePosition;
         // -------------------------------------------------------------------------------------
         public GameStage(BoardSize _boardSize, int[,] _boardData, PlayerName[] _players, PlayerName _currentTurn, int _winAmount = -1)
         {
@@ -39,7 +41,7 @@ namespace TicTacToe
             _Players = _players;
             _CurrentTurn = _currentTurn;
             _BoardData = _boardData;
-            _PosiblePosition = new List<Position>();
+            CreatePosiblePositions();
 
             if(_winAmount == -1 || _winAmount > _WinAmount)
                 _WinAmount = (int)_boardSize;
@@ -59,7 +61,6 @@ namespace TicTacToe
                 _BoardData[_position.Row, _position.Column] = (int)_CurrentTurn;
                 _Selected = _position;
                 _Status = StageStatus.Selected;
-                PrintStage();
                 return true;
             }
             else
@@ -93,8 +94,28 @@ namespace TicTacToe
             }
             return false;
         }
-        // -------------------------------------------------------------------------------------
-        // Private Funtion
+        public GameStage Clone()
+        {
+            var boardData = new int[(int)_BoardSize, (int)_BoardSize];
+            for (int i = 0; i < (int)_BoardSize; i++)
+            {
+                for (int j = 0; j < (int)_BoardSize; j++)
+                {
+                    boardData[i, j] = _BoardData[i, j];
+                }
+            }
+            return new GameStage(_BoardSize, boardData, _Players, _CurrentTurn, _WinAmount);
+        }
+        public void SetNextPlayer()
+        {
+            for (int i = 0; i < _Players.Length; i++)
+            {
+                if(_CurrentTurn == _Players[i])
+                {
+                    _CurrentTurn = _Players[(i+1)%_Players.Length];
+                }
+            }
+        }
         public void PrintStage()
         {
             var stage = "";
@@ -108,13 +129,8 @@ namespace TicTacToe
             }
             UnityEngine.Debug.Log(stage);
         }
-        private StageStatus CheckStatus()
+        public StageStatus CheckStatus()
         {
-            for (int i = 0; i < (int)_BoardSize; i++)
-                for (int j = 0; j < (int)_BoardSize; j++)
-                    if(_BoardData[i,j] == 0)
-                        _PosiblePosition.Add(new Position(i, j));
-            
             // Check Won Player
             if(_WonPlayer != PlayerName.None)
                 return StageStatus.MatchOver;
@@ -124,9 +140,8 @@ namespace TicTacToe
                 return StageStatus.Waiting;
             else
                 return StageStatus.MatchOver;
-
         }
-        private PlayerName CheckWonPlayer()
+        public PlayerName CheckWonPlayer()
         {
             for (int i = 0; i < (int)_BoardSize; i++)
             {
@@ -206,13 +221,22 @@ namespace TicTacToe
                     }
                     if(winRow || winCol || winRightDiagonal || winLeftDiagonal)
                     {
-                        UnityEngine.Debug.Log($"{(PlayerName) target} Won");
                         return (PlayerName) target;
                     }
                 }
                 
             }
             return PlayerName.None;
+        }
+        // -------------------------------------------------------------------------------------
+        // Private Funtion
+        private void CreatePosiblePositions()
+        {
+            _PosiblePosition = new List<Position>();
+            for (int i = 0; i < (int)_BoardSize; i++)
+                for (int j = 0; j < (int)_BoardSize; j++)
+                    if(_BoardData[i,j] == 0)
+                        _PosiblePosition.Add(new Position(i, j));
         }
         // -------------------------------------------------------------------------------------
     }

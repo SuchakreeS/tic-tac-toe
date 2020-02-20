@@ -28,6 +28,7 @@ namespace TicTacToe
         // -------------------------------------------------------------------------------------
         private Action<ActionInfo> _OnUndo;
         private Action<ActionInfo> _OnGameSelected;
+        private Action<PlayerName> _OnBeginTurn;
         private Action<PlayerName> _OnGameCompleted;
         // -------------------------------------------------------------------------------------
         public int TurnCount => _TurnCount;
@@ -67,9 +68,7 @@ namespace TicTacToe
                 _TurnCount--;
                 var stage = GetGameStage();
                 var ActionInfo = new ActionInfo(stage.CurrentTurn, stage.Selected);
-                stage.PrintStage();
                 Debug.Log(stage.Undo());
-                stage.PrintStage();
                 _OnUndo?.Invoke(ActionInfo);
                 _Disposable?.Dispose();
             }
@@ -83,6 +82,11 @@ namespace TicTacToe
         (
             _action => _OnGameSelected += _action,
             _action => _OnGameSelected -= _action
+        );
+        public IObservable<PlayerName> OnBeginTurnAsObservable() => Observable.FromEvent<PlayerName>
+        (
+            _action => _OnBeginTurn += _action,
+            _action => _OnBeginTurn -= _action
         );
         public IObservable<PlayerName> OnGameCompletedAsObservable() => Observable.FromEvent<PlayerName>
         (
@@ -138,6 +142,8 @@ namespace TicTacToe
                     _CanStartNextTurn = false;
                     var gameStage = GetGameStage();
                     var player = GetPlayer();
+                    _OnBeginTurn?.Invoke(gameStage.CurrentTurn);
+                    Debug.Log(gameStage.CurrentTurn);
                     if(gameStage.Status == StageStatus.MatchOver)
                     {
                         _observer.OnNext(true);

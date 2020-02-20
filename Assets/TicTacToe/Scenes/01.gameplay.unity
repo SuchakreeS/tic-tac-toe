@@ -8529,7 +8529,7 @@ MonoBehaviour:
     Controller: 0
   - Name: 2
     Symbol: 1
-    Controller: 0
+    Controller: 1
   m_MatchSizeDefault: 3
 --- !u!1 &1841710108
 GameObject:
