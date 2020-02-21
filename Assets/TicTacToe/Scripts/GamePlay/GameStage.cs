@@ -34,6 +34,7 @@ namespace TicTacToe
         public PlayerName CurrentTurn => _CurrentTurn;
         public int[,] BoardData => _BoardData;
         public List<Position> PosiblePosition => _PosiblePosition;
+        public int WinAmount => _WinAmount;
         // -------------------------------------------------------------------------------------
         public GameStage(BoardSize _boardSize, int[,] _boardData, PlayerName[] _players, PlayerName _currentTurn, int _winAmount = -1)
         {

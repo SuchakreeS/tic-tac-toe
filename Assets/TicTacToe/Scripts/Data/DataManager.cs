@@ -4,11 +4,14 @@ using UnityEngine;
 using UniRx;
 using System;
 using Miximum;
+using System.IO;
 
 namespace TicTacToe
 {
     public class DataManager : Singleton<DataManager>
     {
+        // -------------------------------------------------------------------------------------
+        private const string DATA_PATH = "GameData";
         // -------------------------------------------------------------------------------------
         [Header("Default Setting")]
         [SerializeField] private PlayerInfo[] m_PlayerInfoDefault;
@@ -51,13 +54,31 @@ namespace TicTacToe
                 }
             }
         }
-        public void SetBoardSize(BoardSize _boardSize)
+        public static void SetBoardSize(BoardSize _boardSize)
         {
             _BoardSize = _boardSize;
         }
+        public static void SaveData()
+        {
+            var gameData = GameController.Instance.GetGameData();
+            var json = gameData.ToJson();
+            var savePath = GetSaveFilePath();
+            var fileName = $"{GetTimeStamp()}.json";
+            var fullPath = Path.Combine(savePath, fileName);
+            if(!Directory.Exists(Path.GetDirectoryName(fullPath)))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
+            }
+            File.WriteAllText(fullPath, json);
+        }
+        public static void LoadData()
+        {
+            
+        }
         // -------------------------------------------------------------------------------------
         // Private Funtion
-
+        private static string GetSaveFilePath() => Path.Combine(Environment.CurrentDirectory, DATA_PATH);
+        private static string GetTimeStamp() => DateTime.Now.ToString("yyyyMMddHHmmss");
         // -------------------------------------------------------------------------------------
     }
 }

@@ -109,6 +109,30 @@ namespace TicTacToe
             SwitchPlayers();
             InitGame(true);
         }
+        public GameData GetGameData()
+        {
+            var gameData = new GameData();
+            gameData.Players = new PlayerData[_Players.Length];
+            for (int i = 0; i < _Players.Length; i++)
+            {
+                gameData.Players[i] = new PlayerData(_Players[i].Score, _Players[i].PlayerName, _Players[i].Symbol);
+            }
+            gameData.GameStageData = new GameStageData[_GameStageList.Count];
+            for (int i = 0; i < _GameStageList.Count; i++)
+            {
+                gameData.GameStageData[i] = new GameStageData(
+                    _GameStageList[i].BoardData, 
+                    _GameStageList[i].Selected, 
+                    _GameStageList[i].Players,
+                    _GameStageList[i].CurrentTurn, 
+                    _GameStageList[i].Status,
+                    _GameStageList[i].WonPlayer,
+                    _GameStageList[i].WinAmount);
+            }
+            gameData.TurnCount = TurnCount;
+            gameData.BoardSize = _BoardSize;
+            return gameData;
+        }
         // -------------------------------------------------------------------------------------
         // Private Funtion
         private IObservable<PlayerName> OnGameCompleted()
@@ -125,6 +149,7 @@ namespace TicTacToe
                             var wonPlayer = GetGameStage().WonPlayer;
                             AddScore(wonPlayer);
                             _OnGameCompleted?.Invoke(wonPlayer);
+                            DataManager.SaveData();
                             _observer.OnNext(wonPlayer);
                             _observer.OnCompleted();
                         }).AddTo(this);

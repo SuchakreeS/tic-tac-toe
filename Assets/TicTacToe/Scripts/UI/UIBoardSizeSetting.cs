@@ -63,7 +63,7 @@ namespace TicTacToe
         // Private Funtion
         private void UpdateData()
         {
-            DataManager.Instance.SetBoardSize(_BoardSize);
+            DataManager.SetBoardSize(_BoardSize);
         }
         // -------------------------------------------------------------------------------------
     }

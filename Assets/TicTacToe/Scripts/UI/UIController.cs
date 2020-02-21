@@ -43,6 +43,9 @@ namespace TicTacToe
             // Set up UI
             HideAll();
             ChangeUI(m_StartUI, true);
+
+            Debug.Log($"persistentDataPath: {Application.persistentDataPath}");
+            Debug.Log($"dataPath: {Application.dataPath}");
         }
         // -------------------------------------------------------------------------------------
         // Public Funtion

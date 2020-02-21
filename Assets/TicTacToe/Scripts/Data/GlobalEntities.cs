@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace TicTacToe
 {
@@ -35,7 +36,9 @@ namespace TicTacToe
     }
     public struct Position
     {
+        [JsonProperty("Row")]
         public int Row;
+        [JsonProperty("Column")]
         public int Column;
 
         public Position(int _row, int _column)
