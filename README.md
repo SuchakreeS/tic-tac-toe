@@ -1,5 +1,5 @@
 # Tic-Tac-Toe
-Beta build version 1.0.0 has released.
+Beta build version 1.0.0 has [released](https://github.com/SuchakreeS/tic-tac-toe/releases/tag/beta-1.0.0).
 
 ![](Resources/video-sample-ai-vs-ai.gif)
 
