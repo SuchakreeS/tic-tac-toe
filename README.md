@@ -1,7 +1,7 @@
 # Tic-Tac-Toe
 Beta build version 1.0.0 has released.
 
-![](Resources\video-sample-ai-vs-ai.gif)
+![](Resources/video-sample-ai-vs-ai.gif)
 
 # Feature
 - AI Player
